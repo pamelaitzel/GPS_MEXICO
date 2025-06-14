@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>GPS México</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 40px;
+      background: #f0f4f8;
+      color: #333;
+    }
+
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 30px;
+    }
+
+    form {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #34495e;
+    }
+
+    input[type="text"], select {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+
+    .tipo-group, .poi-group {
+      margin-top: 20px;
+    }
+
+    .poi-group input[type="checkbox"] {
+      margin-right: 6px;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 18px;
+      background-color: #2980b9;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #1c5d8c;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 20px;
+      }
+      form {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h2>Planificador de Ruta - GPS México</h2>
+  <form action="/ruta" method="post">
+
+    <label for="origen">Origen:</label>
+    <input type="text" name="origen" id="origen" list="lugares" required>
+
+    <label for="destino">Destino:</label>
+    <input type="text" name="destino" id="destino" list="lugares" required>
+
+    <datalist id="lugares">
+      {% for lugar in lugares %}
+        <option value="{{ lugar }}">
+      {% endfor %}
+    </datalist>
+
+    <div class="tipo-group">
+      <label for="tipo_ruta">Tipo de Ruta:</label>
+      <select name="tipo_ruta" id="tipo_ruta">
+        <option value="corta">Más corta (distancia)</option>
+        <option value="rapida">Más rápida (velocidad simulada)</option>
+        <option value="evitar_peajes">Evitar peajes</option>
+      </select>
+    </div>
+
+    <div class="poi-group">
+      <label>Mostrar puntos de interés:</label>
+      <input type="checkbox" name="mostrar_pois" value="Gasolinera" id="gasolinera">
+      <label for="gasolinera">Gasolineras</label><br>
+      <input type="checkbox" name="mostrar_pois" value="Restaurante" id="restaurante">
+      <label for="restaurante">Restaurantes</label><br>
+      <input type="checkbox" name="mostrar_pois" value="Baño" id="bano">
+      <label for="bano">Baños</label>
+    </div>
+
+    <button type="submit">Calcular Ruta</button>
+  </form>
+</body>
+</html>

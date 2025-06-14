@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Resultado de Ruta</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f7fa;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+      animation: fadeIn 0.7s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2, h3 {
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+
+    p, li {
+      font-size: 16px;
+      line-height: 1.5;
+      margin: 6px 0;
+    }
+
+    ul {
+      list-style-type: disc;
+      margin-left: 25px;
+      margin-bottom: 20px;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+      background-color: #2980b9;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    a:hover {
+      background-color: #1f6391;
+    }
+
+    .container {
+      max-width: 850px;
+      margin: auto;
+      background: white;
+      padding: 25px 30px;
+      border-radius: 10px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+
+    .info-block {
+      background: #e8f0fe;
+      padding: 15px 20px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+      border-left: 6px solid #2980b9;
+    }
+
+    iframe {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      width: 100%;
+      height: 500px;
+    }
+
+    .poi-list li::before {
+      content: "📍 ";
+      margin-right: 4px;
+    }
+
+    .tramo-list li::before {
+      content: "🚗 ";
+      margin-right: 4px;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+      .container {
+        padding: 15px 20px;
+      }
+      p, li {
+        font-size: 14px;
+      }
+      iframe {
+        height: 300px;
+      }
+      a {
+        padding: 8px 14px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Ruta Calculada</h2>
+
+    <div class="info-block">
+      <p><strong>Ruta:</strong> {{ camino | join(" → ") }}</p>
+      <p><strong>Distancia total:</strong> {{ distancia }} km</p>
+      <p><strong>Tiempo estimado total:</strong> {{ tiempo_total }}</p>
+    </div>
+
+    <h3>Tiempo estimado por tramo:</h3>
+    <ul class="tramo-list">
+      {% for tramo in tiempos_por_tramo %}
+        <li>{{ tramo }}</li>
+      {% endfor %}
+    </ul>
+
+    {% if pois %}
+    <h3>Puntos de interés en la ruta:</h3>
+    <ul class="poi-list">
+      {% for poi in pois %}
+        <li>{{ poi.tipo }} en {{ poi.estado }} - {{ poi.descripcion }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    <h3>Mapa de la Ruta:</h3>
+    <iframe src="{{ url_for('static', filename='mapa.html') }}"></iframe>
+
+    <a href="/">← Volver al inicio</a>
+  </div>
+</body>
+</html>
